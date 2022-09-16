@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  idp:
+    image: eldari/ad4t.identityprovider:dev
+    ports:
+      - "44395:443"
+    #restart: always
+    depends_on:
+      - mssql
+  api:
+    image: eldari/pw.api:dev
+    ports:
+      - "5135:80"
+      - "7135:443"
+    #restart: always
+    depends_on:
+      - idp
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - 1433:1433
+    volumes:
+      - ~/apps/mssql/data:/var/lib/mssqlql/data
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=YourStrong@Passw0rd
