@@ -4,24 +4,35 @@ services:
   idp:
     image: eldari/ad4t.identityprovider:dev
     ports:
-      - "44395:443"
+      - "44395:80"
     #restart: always
     depends_on:
-      - mssql
+      - postgres
+      
   api:
     image: eldari/pw.api:dev
     ports:
       - "5135:80"
-      - "7135:443"
     #restart: always
     depends_on:
       - idp
-  mssql:
-    image: mcr.microsoft.com/mssql/server:2019-latest
+  
+  spa:
+    image: parrotwings
     ports:
-      - 1433:1433
-    volumes:
-      - ~/apps/mssql/data:/var/lib/mssqlql/data
+      - "4200:80"
+      
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - 5432:5432
     environment:
-      - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=YourStrong@Passw0rd
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pwd
+      POSTGRES_DB: idp
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    command: -c log_statement=all
+
+volumes:
+  dbdata:
