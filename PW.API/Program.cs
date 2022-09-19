@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using OpenIddict.Validation.AspNetCore;
 
 namespace PW.API
@@ -15,11 +16,14 @@ namespace PW.API
                     builder =>
                     {
                         builder
-                            .AllowCredentials()
-                            .WithOrigins("https://localhost:4200")
-                            .SetIsOriginAllowedToAllowWildcardSubdomains()
                             .AllowAnyHeader()
-                            .AllowAnyMethod();
+                            .AllowAnyMethod()
+                            .AllowAnyOrigin();
+                            //.AllowCredentials();
+                            //.WithOrigins("http://localhost:4200")
+                            //.SetIsOriginAllowedToAllowWildcardSubdomains()
+                            //.AllowAnyHeader()
+                            //.AllowAnyMethod();
                     });
             });
             builder.Services.AddAuthentication(options =>
@@ -28,12 +32,12 @@ namespace PW.API
             });
 
             // Register the OpenIddict validation components.
-            /*builder.Services.AddOpenIddict()
+            builder.Services.AddOpenIddict()
                 .AddValidation(options =>
                 {
                     // Note: the validation handler uses OpenID Connect discovery
                     // to retrieve the address of the introspection endpoint.
-                    options.SetIssuer("https://localhost:44395/");
+                    options.SetIssuer("http://localhost:44395/");
                     //options.AddAudiences("rs_dataEventRecordsApi");
 
                     // Configure the validation handler to use introspection and register the client
@@ -47,18 +51,20 @@ namespace PW.API
 
                     // Register the ASP.NET Core host.
                     options.UseAspNetCore();
-                });*/
+                });
 
             builder.Services.AddControllers();
 
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
-            app.UseHttpsRedirection();
-
-            app.UseCors("AllowAllOrigins");
             app.UseRouting();
+            app.UseCors("AllowAllOrigins");
+
+            /*app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });*/
 
             app.UseAuthentication();
             app.UseAuthorization();
