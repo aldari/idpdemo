@@ -34,7 +34,7 @@ import { AuthInterceptor } from './AuthInterceptor';
     MatButtonModule,
     AuthModule.forRoot({
       config: {
-          authority: 'https://localhost:44395',
+          authority: 'http://localhost:44395',
           redirectUrl: window.location.origin,
           postLogoutRedirectUri: window.location.origin,
           clientId: 'angularclient',

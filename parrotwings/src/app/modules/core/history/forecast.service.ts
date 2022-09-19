@@ -12,7 +12,7 @@ export class ForecastService {
     private headers: HttpHeaders = new HttpHeaders();
 
     constructor(private http: HttpClient, private securityService: OidcSecurityService) {
-        this.actionUrl = `https://localhost:7135/weatherforecast/`;
+        this.actionUrl = `http://api/weatherforecast/`;
     }
 
     public GetAll = (): Observable<Forecast[]> => {
