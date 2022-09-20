@@ -9,4 +9,5 @@ COPY . .
 RUN ng build
 
 FROM nginx as runtime
+COPY ["nginx.conf", "/etc/nginx/nginx.conf"]
 COPY --from=build /app/dist/parrotwings /usr/share/nginx/html
