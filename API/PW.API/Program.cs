@@ -61,10 +61,10 @@ namespace PW.API
             app.UseRouting();
             app.UseCors("AllowAllOrigins");
 
-            /*app.UseForwardedHeaders(new ForwardedHeadersOptions
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
             {
                 ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
-            });*/
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

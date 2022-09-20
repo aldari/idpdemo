@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace PW.API.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
