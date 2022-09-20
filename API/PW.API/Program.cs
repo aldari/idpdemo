@@ -37,7 +37,7 @@ namespace PW.API
                 {
                     // Note: the validation handler uses OpenID Connect discovery
                     // to retrieve the address of the introspection endpoint.
-                    options.SetIssuer("http://localhost:44395/");
+                    options.SetIssuer("http://idp");
                     //options.AddAudiences("rs_dataEventRecordsApi");
 
                     // Configure the validation handler to use introspection and register the client
